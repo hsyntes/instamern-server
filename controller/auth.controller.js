@@ -81,6 +81,16 @@ exports.login = async (req, res, next) => {
   }
 };
 
+// * Logout
+exports.logout = async (req, res, next) => {
+  try {
+    Response.clearCookie();
+    Response.send(res, 200, "success", "You're just logged out.");
+  } catch (e) {
+    next(e);
+  }
+};
+
 // * Change Password
 exports.updatePassword = async (req, res, next) => {
   try {
@@ -98,6 +108,7 @@ exports.updatePassword = async (req, res, next) => {
         )
       );
 
+    // Check current password is correct or not
     if (!(await comparePasswords(req.user, req.body.currentPassword)))
       return next(
         new AppError(
@@ -107,6 +118,7 @@ exports.updatePassword = async (req, res, next) => {
         )
       );
 
+    // Check current password is not the same as previous password or not
     if (await comparePasswords(req.user, req.body.password))
       return next(
         new AppError(
@@ -116,11 +128,14 @@ exports.updatePassword = async (req, res, next) => {
         )
       );
 
+    // Update passwords
     req.user.user_password = req.body.password;
     req.user.user_passwordConfirm = req.body.passwordConfirm;
 
+    // Validate the document
     await req.user.save();
 
+    // Clear cookie
     Response.clearCookie(res);
 
     Response.send(
@@ -129,6 +144,14 @@ exports.updatePassword = async (req, res, next) => {
       "success",
       "Your password has been updated successfully."
     );
+  } catch (e) {
+    next(e);
+  }
+};
+
+// * Update Email
+exports.updateEmail = async (req, res, next) => {
+  try {
   } catch (e) {
     next(e);
   }

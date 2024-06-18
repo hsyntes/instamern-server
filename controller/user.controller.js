@@ -6,9 +6,6 @@ exports.getUsers = async (req, res, next) => {
   try {
     const users = await User.find();
 
-    // Response.send(res, 200, "success", undefined, users.length, undefined, {
-    //   users,
-    // });
     Response.send(res, 200, "success", undefined, users.length, { users });
   } catch (e) {
     next(e);
