@@ -6,6 +6,7 @@ const { verifyToken } = require("../middlewares/auth.middleware");
 const {
   signup,
   login,
+  logout,
   updatePassword,
   deactivateAccount,
   deleteAccount,
@@ -18,6 +19,7 @@ router.post("/login", login);
 // * Authenticate Token Middleware
 router.use(verifyToken);
 
+router.post("/logout", logout);
 router.patch("/update-password", updatePassword);
 router.patch("/deactivate", deactivateAccount);
 router.delete("/delete", deleteAccount);
