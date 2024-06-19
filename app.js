@@ -8,7 +8,7 @@ const ExpressMongoSanitize = require("express-mongo-sanitize");
 const hpp = require("hpp");
 const helmet = require("helmet");
 const xssClean = require("xss-clean");
-const routes = require("./routes");
+const routes = require("./routes/index.routes");
 const AppError = require("./errors/AppError");
 const errorController = require("./controller/error.controller");
 

@@ -10,7 +10,8 @@ router.get("/", (req, res, next) =>
 );
 
 // * API Endpoints (Nested Routes)
-router.use("/users", require("./user.routes")); // user routes
 router.use("/auth", require("./auth.routes")); // auth routes
+router.use("/users", require("./user.routes")); // user routes
+router.use("/posts", require("./post.routes")); // post routes
 
 module.exports = router;
