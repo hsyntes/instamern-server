@@ -47,6 +47,11 @@ const Schema = new mongoose.Schema(
       trim: true,
     },
 
+    user_photo: {
+      type: String,
+      trim: true,
+    },
+
     active: {
       type: Boolean,
       default: true,
@@ -59,6 +64,13 @@ const Schema = new mongoose.Schema(
     versionKey: false,
   }
 );
+
+// * Virtual populating
+Schema.virtual("user_posts", {
+  ref: "Post",
+  foreignField: "postedBy",
+  localField: "_id",
+});
 
 // * Document Middleware
 Schema.pre("save", async function (next) {
