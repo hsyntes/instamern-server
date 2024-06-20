@@ -1,15 +1,27 @@
 const AWS = require("../aws.config");
-const { promisify } = require("util");
 const sharp = require("sharp");
+const { promisify } = require("util");
 const AppError = require("../errors/AppError");
 const Post = require("../models/Post");
+const Comment = require("../models/Comment");
 const {
   listObjectsV2,
   deleteObjectsV2,
 } = require("../middlewares/s3.middleware");
 const Response = require("../utils/Response");
 
-// * CREATE Post & UPLOAD Post Image(s)
+// * GET Post by id
+exports.getPost = async (req, res, next) => {
+  try {
+    const post = await Post.findById(req.params.id);
+
+    Response.send(res, 200, "success", undefined, undefined, { post });
+  } catch (e) {
+    next(e);
+  }
+};
+
+// * CREATE post & UPLOAD post image(s)
 exports.createPost = async (req, res, next) => {
   try {
     if (!req.files.length === 0)
@@ -25,7 +37,6 @@ exports.createPost = async (req, res, next) => {
     });
 
     const S3 = new AWS.S3();
-
     const upload = promisify(S3.upload.bind(S3));
 
     const post_images = [];
@@ -76,7 +87,7 @@ exports.createPost = async (req, res, next) => {
   }
 };
 
-// * DELETE Post
+// * DELETE post by id
 exports.deletePost = async (req, res, next) => {
   try {
     if (!req.params.id)
@@ -98,6 +109,9 @@ exports.deletePost = async (req, res, next) => {
 
     // Delete post document
     await Post.findByIdAndDelete(req.params.id);
+
+    // Delete comment document under post
+    await Comment.deleteMany({ comment_commentedPost: req.params.id });
 
     Response.send(res, 204);
   } catch (e) {

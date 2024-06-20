@@ -26,7 +26,7 @@ exports.getUser = async (req, res, next) => {
   }
 };
 
-// * Upload user profile photo
+// * Upload user's profile photo
 exports.uploadProfilePhoto = async (req, res, next) => {
   try {
     if (!req.file || req.file.fieldname !== "profile_photo")
