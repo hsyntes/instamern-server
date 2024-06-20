@@ -1,8 +1,8 @@
-const AppError = require("../errors/AppError");
 const User = require("../models/User");
-const Response = require("../utils/Response");
 const AWS = require("../aws.config");
 const sharp = require("sharp");
+const AppError = require("../errors/AppError");
+const Response = require("../utils/Response");
 
 // * GET users
 exports.getUsers = async (req, res, next) => {

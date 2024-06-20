@@ -4,7 +4,6 @@ const {
   generateToken,
   comparePasswords,
 } = require("../middlewares/auth.middleware");
-const AWS = require("../aws.config");
 const AppError = require("../errors/AppError");
 const Response = require("../utils/Response");
 const {
