@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Post = require("../models/Post");
+const Comment = require("../models/Comment");
 const AppError = require("../errors/AppError");
 const {
   generateToken,
@@ -172,12 +173,13 @@ exports.deactivateAccount = async (req, res, next) => {
   }
 };
 
-// * Delete
+// * Delete Account
 exports.deleteAccount = async (req, res, next) => {
   try {
     // Delete user and their posts
     await User.findByIdAndDelete(req.user._id);
     await Post.deleteMany({ post_postedBy: req.user._id });
+    await Comment.deleteMany({ comment_commentedBy: req.user._id });
 
     // Delete user's profile photo & post images from AWS S3
     const objectsV2 = await listObjectsV2({ Prefix: `users/${req.user._id}` });

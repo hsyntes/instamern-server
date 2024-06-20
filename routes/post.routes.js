@@ -2,7 +2,11 @@ const express = require("express");
 const multer = require("multer");
 const { verifyToken } = require("../middlewares/auth.middleware");
 
-const { createPost, deletePost } = require("../controller/post.controller");
+const {
+  createPost,
+  getPost,
+  deletePost,
+} = require("../controller/post.controller");
 
 const router = express.Router();
 const storage = multer({ storage: multer.memoryStorage() });
@@ -11,6 +15,9 @@ const storage = multer({ storage: multer.memoryStorage() });
 router.use(verifyToken);
 
 router.route("/").post(storage.array("post_images", 10), createPost);
-router.route("/:id").delete(deletePost);
+router.route("/:id").get(getPost).delete(deletePost);
+
+// * Nested Routes
+router.use("/:post_id/comments", require("./comment.routes"));
 
 module.exports = router;
