@@ -146,6 +146,16 @@ exports.deletePost = async (req, res, next) => {
 // * Like post by id
 exports.likePost = async (req, res, next) => {
   try {
+    const post = await Post.findById(req.params.id);
+
+    if (post.post_likes.includes(req.user._id)) {
+      await Post.findByIdAndUpdate(req.params.id, {
+        $pull: { post_likes: req.user._id },
+      });
+
+      return Response.send(res, 201, "success", "Unliked!");
+    }
+
     await Post.findByIdAndUpdate(req.params.id, {
       $addToSet: { post_likes: req.user._id },
     });
