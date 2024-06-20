@@ -36,7 +36,7 @@ exports.signup = async (req, res, next) => {
     });
 
     user.user_password = undefined;
-    user.active = undefined;
+    user.user_active = undefined;
 
     Response.send(res, 201, "success", "Signed up successfully!", undefined, {
       token,
@@ -73,7 +73,7 @@ exports.login = async (req, res, next) => {
     if (!(await comparePasswords(user, req.body.password)))
       return next(new AppError(401, "fail", "Password does not match."));
 
-    if (!user.active) user.active = true;
+    if (!user.user_active) user.user_active = true;
 
     await user.save({ validateBeforeSave: false });
 
@@ -167,7 +167,7 @@ exports.updateEmail = async (req, res, next) => {
 // * Deactivate Account
 exports.deactivateAccount = async (req, res, next) => {
   try {
-    await User.findByIdAndUpdate(req.user._id, { active: false });
+    await User.findByIdAndUpdate(req.user._id, { user_active: false });
     Response.send(res, 200, "success", "You're account has been deactivated.");
   } catch (e) {
     next(e);
