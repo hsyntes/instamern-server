@@ -35,7 +35,11 @@ exports.verifyToken = async (req, res, next) => {
 
     if (!user)
       return next(
-        new AppError(404, "fail", "User not found. Please try to log in again.")
+        new AppError(
+          404,
+          "fail",
+          "Logged in user not found. Please try to log in."
+        )
       );
 
     // * Grant Access
