@@ -3,11 +3,11 @@ const { promisify } = require("util");
 const sharp = require("sharp");
 const AppError = require("../errors/AppError");
 const Post = require("../models/Post");
-const Response = require("../utils/Response");
 const {
   listObjectsV2,
   deleteObjectsV2,
 } = require("../middlewares/s3.middleware");
+const Response = require("../utils/Response");
 
 // * CREATE Post & UPLOAD Post Image(s)
 exports.createPost = async (req, res, next) => {
@@ -88,11 +88,15 @@ exports.deletePost = async (req, res, next) => {
         )
       );
 
+    // * List objects under posts/post_id
     const objectsV2 = await listObjectsV2({
       Prefix: `users/${req.user._id}/posts/${req.params.id}`,
     });
 
+    // * Delete all objects under post_id
     await deleteObjectsV2(objectsV2);
+
+    // * Delete post document
     await Post.findByIdAndDelete(req.params.id);
 
     Response.send(res, 204);
