@@ -26,13 +26,17 @@ exports.createPost = async (req, res, next) => {
   try {
     if (!req.files.length === 0)
       return next(
-        new AppError(403, "fail", "Please select a post image to upload.")
+        new AppError(
+          403,
+          "fail",
+          "Please select at least one photo to share posts."
+        )
       );
 
-    const { post_description } = req.body;
+    const { post_caption } = req.body;
 
     const post = await Post.create({
-      post_description,
+      post_caption,
       post_postedBy: req.user._id,
     });
 
@@ -87,6 +91,26 @@ exports.createPost = async (req, res, next) => {
   }
 };
 
+// * Update post by id
+exports.updatePost = async (req, res, next) => {
+  try {
+    const post = await Post.findByIdAndUpdate(req.params.id, {
+      post_caption: req.body.post_caption,
+    });
+
+    Response.send(
+      res,
+      201,
+      "success",
+      "Your post has been updated successfully.",
+      undefined,
+      { post }
+    );
+  } catch (e) {
+    next(e);
+  }
+};
+
 // * DELETE post by id
 exports.deletePost = async (req, res, next) => {
   try {
@@ -114,6 +138,19 @@ exports.deletePost = async (req, res, next) => {
     await Comment.deleteMany({ comment_commentedPost: req.params.id });
 
     Response.send(res, 204);
+  } catch (e) {
+    next(e);
+  }
+};
+
+// * Like post by id
+exports.likePost = async (req, res, next) => {
+  try {
+    await Post.findByIdAndUpdate(req.params.id, {
+      $addToSet: { post_likes: req.user._id },
+    });
+
+    Response.send(res, 201, "success", "Liked!");
   } catch (e) {
     next(e);
   }

@@ -65,10 +65,16 @@ const Schema = new mongoose.Schema(
   }
 );
 
-// * Virtual Populating
+// * Virtual Populating(s)
 Schema.virtual("user_posts", {
   ref: "Post",
   foreignField: "post_postedBy",
+  localField: "_id",
+});
+
+Schema.virtual("user_stories", {
+  ref: "Story",
+  foreignField: "story_storiedBy",
   localField: "_id",
 });
 
@@ -82,9 +88,15 @@ Schema.pre("save", async function (next) {
   next();
 });
 
-// * Query Middleware
+// * Query Middleware(s)
 Schema.pre("findOne", function (next) {
   this.populate("user_posts");
+
+  next();
+});
+
+Schema.pre("find", function (next) {
+  this.populate("user_stories");
 
   next();
 });

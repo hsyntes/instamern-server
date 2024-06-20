@@ -13,5 +13,6 @@ router.get("/", (req, res, next) =>
 router.use("/auth", require("./auth.routes")); // auth routes
 router.use("/users", require("./user.routes")); // user routes
 router.use("/posts", require("./post.routes")); // post routes
+router.use("/stories", require("./story.routes")); // story routes
 
 module.exports = router;
