@@ -5,6 +5,7 @@ const AppError = require("../errors/AppError");
 const Post = require("../models/Post");
 const Response = require("../utils/Response");
 
+// * CREATE Post & UPLOAD Post Image(s)
 exports.createPost = async (req, res, next) => {
   try {
     if (!req.files.length === 0)

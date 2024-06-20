@@ -47,7 +47,7 @@ exports.uploadProfilePhoto = async (req, res, next) => {
 
     const params = {
       Bucket: process.env.AWS_BUCKET,
-      Key: `users/${req.user._id}/profile/${req.user.user_username}.jpg`,
+      Key: `users/${req.user._id}/profile/${req.user.user_username}.png`,
       Body: photo,
     };
 
@@ -61,7 +61,6 @@ exports.uploadProfilePhoto = async (req, res, next) => {
           );
 
         const url = data.Location;
-
         req.user.user_photo = url;
 
         await req.user.save({ validateBeforeSave: false });
@@ -70,7 +69,9 @@ exports.uploadProfilePhoto = async (req, res, next) => {
           res,
           201,
           "success",
-          "Profile picture has been uploaded successfully."
+          "Profile picture has been uploaded successfully.",
+          undefined,
+          { user: req.user }
         );
       });
     } catch (e) {

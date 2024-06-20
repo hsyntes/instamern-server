@@ -65,10 +65,10 @@ const Schema = new mongoose.Schema(
   }
 );
 
-// * Virtual populating
+// * Virtual Populating
 Schema.virtual("user_posts", {
   ref: "Post",
-  foreignField: "postedBy",
+  foreignField: "post_postedBy",
   localField: "_id",
 });
 
@@ -78,6 +78,13 @@ Schema.pre("save", async function (next) {
 
   this.user_password = await bcrypt.hash(this.user_password, 12);
   this.user_passwordConfirm = undefined;
+
+  next();
+});
+
+// * Query Middleware
+Schema.pre("findOne", function (next) {
+  this.populate("user_posts");
 
   next();
 });
