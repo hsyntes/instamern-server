@@ -1,15 +1,15 @@
 const User = require("../models/User");
 const Post = require("../models/Post");
+const AppError = require("../errors/AppError");
 const {
   generateToken,
   comparePasswords,
 } = require("../middlewares/auth.middleware");
-const AppError = require("../errors/AppError");
-const Response = require("../utils/Response");
 const {
   listObjectsV2,
   deleteObjectsV2,
 } = require("../middlewares/s3.middleware");
+const Response = require("../utils/Response");
 
 // * Signup
 exports.signup = async (req, res, next) => {
@@ -175,11 +175,11 @@ exports.deactivateAccount = async (req, res, next) => {
 // * Delete
 exports.deleteAccount = async (req, res, next) => {
   try {
-    // * Delete user and their posts
+    // Delete user and their posts
     await User.findByIdAndDelete(req.user._id);
     await Post.deleteMany({ post_postedBy: req.user._id });
 
-    // * Delete user's profile photo & post images from AWS S3
+    // Delete user's profile photo & post images from AWS S3
     const objectsV2 = await listObjectsV2({ Prefix: `users/${req.user._id}` });
     await deleteObjectsV2(objectsV2);
 

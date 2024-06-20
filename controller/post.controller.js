@@ -88,15 +88,15 @@ exports.deletePost = async (req, res, next) => {
         )
       );
 
-    // * List objects under posts/post_id
+    // List objects under posts/post_id
     const objectsV2 = await listObjectsV2({
       Prefix: `users/${req.user._id}/posts/${req.params.id}`,
     });
 
-    // * Delete all objects under post_id
+    // Delete all objects under post_id
     await deleteObjectsV2(objectsV2);
 
-    // * Delete post document
+    // Delete post document
     await Post.findByIdAndDelete(req.params.id);
 
     Response.send(res, 204);
