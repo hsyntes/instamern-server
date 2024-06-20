@@ -4,6 +4,10 @@ const sharp = require("sharp");
 const AppError = require("../errors/AppError");
 const Post = require("../models/Post");
 const Response = require("../utils/Response");
+const {
+  listObjectsV2,
+  deleteObjectsV2,
+} = require("../middlewares/s3.middleware");
 
 // * CREATE Post & UPLOAD Post Image(s)
 exports.createPost = async (req, res, next) => {
@@ -67,6 +71,31 @@ exports.createPost = async (req, res, next) => {
       undefined,
       { post }
     );
+  } catch (e) {
+    next(e);
+  }
+};
+
+// * DELETE Post
+exports.deletePost = async (req, res, next) => {
+  try {
+    if (!req.params.id)
+      return next(
+        new AppError(
+          403,
+          "fail",
+          "Please specify which post do you want to delete."
+        )
+      );
+
+    const objectsV2 = await listObjectsV2({
+      Prefix: `users/${req.user._id}/posts/${req.params.id}`,
+    });
+
+    await deleteObjectsV2(objectsV2);
+    await Post.findByIdAndDelete(req.params.id);
+
+    Response.send(res, 204);
   } catch (e) {
     next(e);
   }

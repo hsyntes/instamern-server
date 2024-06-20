@@ -11,6 +11,7 @@ exports.listObjectsV2 = async ({ Prefix }) => {
   }).promise();
 };
 
+// * DELETE S3 Objects
 exports.deleteObjectsV2 = async (objectsV2) => {
   if (objectsV2.Contents.length === 0) return;
 

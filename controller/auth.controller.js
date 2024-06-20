@@ -173,14 +173,14 @@ exports.deactivateAccount = async (req, res, next) => {
   }
 };
 
-// * Delelete Account
+// * Delete
 exports.deleteAccount = async (req, res, next) => {
   try {
     // * Delete user and their posts
     await User.findByIdAndDelete(req.user._id);
     await Post.deleteMany({ post_postedBy: req.user._id });
 
-    // * Delete user's post photos from AWS S3
+    // * Delete user's profile photo & post images from AWS S3
     const objectsV2 = await listObjectsV2({ Prefix: `users/${req.user._id}` });
     await deleteObjectsV2(objectsV2);
 
