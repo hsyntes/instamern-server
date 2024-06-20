@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// * Schema Design
 const Schema = new mongoose.Schema(
   {
     post_images: {
@@ -7,7 +8,7 @@ const Schema = new mongoose.Schema(
       trim: true,
     },
 
-    post_description: {
+    post_caption: {
       type: String,
       trim: true,
     },
@@ -16,6 +17,11 @@ const Schema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: [true, "A post must have belong to a user."],
+    },
+
+    post_likes: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "User",
     },
   },
   {

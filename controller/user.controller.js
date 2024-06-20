@@ -57,7 +57,7 @@ exports.uploadProfilePhoto = async (req, res, next) => {
       S3.upload(params, async (err, data) => {
         if (err)
           return next(
-            new AppError(422, "fail", `Profile picture couldn't upload. ${err}`)
+            new AppError(422, "fail", `Profile picture couldn't upload: ${err}`)
           );
 
         const url = data.Location;

@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Post = require("../models/Post");
+const Story = require("../models/Story");
 const Comment = require("../models/Comment");
 const AppError = require("../errors/AppError");
 const {
@@ -176,14 +177,17 @@ exports.deactivateAccount = async (req, res, next) => {
 // * Delete Account
 exports.deleteAccount = async (req, res, next) => {
   try {
-    // Delete user and their posts
+    // Delete user and their related documents
     await User.findByIdAndDelete(req.user._id);
     await Post.deleteMany({ post_postedBy: req.user._id });
+    await Story.deleteMany({ story_storiedBy: req.user._id });
     await Comment.deleteMany({ comment_commentedBy: req.user._id });
 
     // Delete user's profile photo & post images from AWS S3
     const objectsV2 = await listObjectsV2({ Prefix: `users/${req.user._id}` });
     await deleteObjectsV2(objectsV2);
+
+    // Delete user's story photos from AWS S3
 
     Response.send(res, 204);
   } catch (e) {

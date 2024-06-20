@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// * Schema Design
 const Schema = new mongoose.Schema(
   {
     comment: {
