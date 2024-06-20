@@ -52,7 +52,7 @@ const Schema = new mongoose.Schema(
       trim: true,
     },
 
-    active: {
+    user_active: {
       type: Boolean,
       default: true,
     },
@@ -95,8 +95,9 @@ Schema.pre("findOne", function (next) {
   next();
 });
 
-Schema.pre("find", function (next) {
+Schema.pre(["find", "findOne"], function (next) {
   this.populate("user_stories");
+  this.find({ user_active: { $ne: false } });
 
   next();
 });
