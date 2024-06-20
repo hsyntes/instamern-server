@@ -34,7 +34,7 @@ exports.uploadProfilePhoto = async (req, res, next) => {
         new AppError(403, "fail", "Please select a profile pictureto upload.")
       );
 
-    // * Resize the photo before uploading
+    // Resize the photo before uploading
     const photo = await sharp(req.file.buffer)
       .resize({
         width: 350,
