@@ -26,6 +26,19 @@ exports.getUser = async (req, res, next) => {
   }
 };
 
+// * Search user by username
+exports.searchUsers = async (req, res, next) => {
+  try {
+    const { username } = req.body;
+
+    const users = await User.findOne({
+      user_username: { $regex: username, $options: "i" },
+    });
+  } catch (e) {
+    next(e);
+  }
+};
+
 // * Upload user's profile photo
 exports.uploadProfilePhoto = async (req, res, next) => {
   try {

@@ -5,6 +5,7 @@ const { verifyToken } = require("../middlewares/auth.middleware");
 const {
   getUsers,
   getUser,
+  searchUsers,
   uploadProfilePhoto,
 } = require("../controller/user.controller");
 
@@ -14,6 +15,7 @@ const storage = multer({ storage: multer.memoryStorage() });
 // * User Endpoints
 router.route("/").get(getUsers);
 router.route("/:id").get(getUser);
+router.get("/search", searchUsers);
 
 // * Authenticate Token Middleware
 router.use(verifyToken);

@@ -31,7 +31,7 @@ const Schema = new mongoose.Schema(
       type: String,
       required: [true, "Password set up a password."],
       minlength: [8, "Password cannot be shorter than 8 characters."],
-      maxlength: [32, "Password cannot be longer than 32 characters."],
+      maxlength: [16, "Password cannot be longer than 32 characters."],
       select: false,
       trim: true,
     },
