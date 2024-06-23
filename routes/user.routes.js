@@ -15,7 +15,7 @@ const storage = multer({ storage: multer.memoryStorage() });
 // * User Endpoints
 router.route("/").get(getUsers);
 router.route("/:id").get(getUser);
-router.get("/search", searchUsers);
+router.get("/search/:username", searchUsers);
 
 // * Authenticate Token Middleware
 router.use(verifyToken);
