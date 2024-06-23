@@ -29,11 +29,13 @@ exports.getUser = async (req, res, next) => {
 // * Search user by username
 exports.searchUsers = async (req, res, next) => {
   try {
-    const { username } = req.body;
+    const { username } = req.params;
 
     const users = await User.findOne({
       user_username: { $regex: username, $options: "i" },
     });
+
+    Response.send(res, 200, "success", undefined, users.length, { users });
   } catch (e) {
     next(e);
   }

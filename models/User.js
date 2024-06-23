@@ -8,6 +8,8 @@ const Schema = new mongoose.Schema(
     user_fullname: {
       type: String,
       required: [true, "Please fill in your name."],
+      minlength: [2, "Fullname is too short."],
+      maxlength: [24, "Fullname is too long."],
       trim: true,
     },
 
@@ -15,7 +17,7 @@ const Schema = new mongoose.Schema(
       type: String,
       required: [true, "Please specify a unique username."],
       minlength: [3, "Username cannot be shorter than 3 characters."],
-      maxlength: [8, "Username cannot be longer than 8 characters."],
+      maxlength: [12, "Username cannot be longer than 8 characters."],
       unique: true,
       lowercase: true,
       trim: true,
@@ -31,7 +33,7 @@ const Schema = new mongoose.Schema(
       type: String,
       required: [true, "Password set up a password."],
       minlength: [8, "Password cannot be shorter than 8 characters."],
-      maxlength: [16, "Password cannot be longer than 32 characters."],
+      maxlength: [32, "Password cannot be longer than 32 characters."],
       select: false,
       trim: true,
     },
