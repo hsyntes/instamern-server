@@ -31,7 +31,7 @@ exports.searchUsers = async (req, res, next) => {
   try {
     const { username } = req.params;
 
-    const users = await User.findOne({
+    const users = await User.find({
       user_username: { $regex: username, $options: "i" },
     });
 
