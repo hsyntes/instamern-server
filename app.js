@@ -42,7 +42,7 @@ app.use(express.json({ limit }));
 // * MongoDB Connection
 (async () => {
   try {
-    await mongoose.connect(process.env.MONGO_DB_URL);
+    await mongoose.connect(process.env.MONGODB_URL);
     console.log("The connection to the MongoDB is successful.");
   } catch (e) {
     console.error(`The connection to the MongoDB is failed.`);

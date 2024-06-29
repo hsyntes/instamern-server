@@ -41,12 +41,42 @@ exports.searchUsers = async (req, res, next) => {
   }
 };
 
+// * Check user exists by username
+exports.checkUsernameExists = async (req, res, next) => {
+  try {
+    const { username } = req.params;
+
+    const user = await User.findOne({ user_username: username });
+
+    if (user) return next(new AppError(409, "fail", "Username in use."));
+
+    Response.send(res, 200, "success");
+  } catch (e) {
+    next(e);
+  }
+};
+
+// * Check user exists by email
+exports.checkEmailExists = async (req, res, next) => {
+  try {
+    const { email } = req.params;
+
+    const user = await User.findOne({ user_email: email });
+
+    if (user) return next(new AppError(409, "fail", "Email in use."));
+
+    Response.send(res, 200, "success");
+  } catch (e) {
+    next(e);
+  }
+};
+
 // * Upload user's profile photo
 exports.uploadProfilePhoto = async (req, res, next) => {
   try {
     if (!req.file || req.file.fieldname !== "profile_photo")
       return next(
-        new AppError(403, "fail", "Please select a profile pictureto upload.")
+        new AppError(403, "fail", "Please select a profile picture to upload.")
       );
 
     // Resize the photo before uploading
