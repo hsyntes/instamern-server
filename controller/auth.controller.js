@@ -16,7 +16,24 @@ const Response = require("../utils/Response");
 // * Signup
 exports.signup = async (req, res, next) => {
   try {
-    const { fullname, username, email } = req.body;
+    let { fullname, username, email } = req.body;
+
+    if (fullname.includes(" ")) {
+      let firstname = fullname.split(" ").at(0);
+      let lastname = fullname.split(" ").at(1);
+
+      firstname = `${firstname.slice(0, 1).toUpperCase()}${firstname
+        .slice(1)
+        .toLowerCase()}`;
+
+      if (lastname !== "") {
+        lastname = `${lastname.slice(0, 1).toUpperCase()}${lastname
+          .slice(1)
+          .toLowerCase()}`;
+
+        fullname = `${firstname} ${lastname}`;
+      } else fullname = firstname;
+    }
 
     const user = await User.create({
       user_fullname: fullname,
