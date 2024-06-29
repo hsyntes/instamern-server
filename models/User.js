@@ -49,7 +49,7 @@ const Schema = new mongoose.Schema(
           return value === this.user_password;
         },
 
-        message: "Password doesn't match",
+        message: "Passwords do not match.",
       },
       trim: true,
     },
