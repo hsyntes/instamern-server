@@ -11,6 +11,17 @@ exports.generateToken = (id) => {
   return token;
 };
 
+// * Save the token
+exports.saveToken = (res, token) =>
+  res.cookie("jsonwebtoken", token, {
+    expires: new Date(
+      Date.now() + parseInt(process.env.JWT_EXPIRES_IN) * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: false,
+    path: "/",
+    // secure: true,
+  });
+
 // * Verifying JWT Token
 exports.verifyToken = async (req, res, next) => {
   try {
