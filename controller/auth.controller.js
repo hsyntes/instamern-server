@@ -18,23 +18,6 @@ exports.signup = async (req, res, next) => {
   try {
     let { fullname, username, email } = req.body;
 
-    if (fullname.includes(" ")) {
-      let firstname = fullname.split(" ").at(0);
-      let lastname = fullname.split(" ").at(1);
-
-      firstname = `${firstname.slice(0, 1).toUpperCase()}${firstname
-        .slice(1)
-        .toLowerCase()}`;
-
-      if (lastname !== "") {
-        lastname = `${lastname.slice(0, 1).toUpperCase()}${lastname
-          .slice(1)
-          .toLowerCase()}`;
-
-        fullname = `${firstname} ${lastname}`;
-      } else fullname = firstname;
-    }
-
     const user = await User.create({
       user_fullname: fullname,
       user_username: username,
@@ -47,9 +30,11 @@ exports.signup = async (req, res, next) => {
 
     res.cookie("jsonwebtoken", token, {
       expires: new Date(
-        Date.now() + parseInt(process.env.JWT_EXPIRES_IN) * 24 * 60 * 60
+        Date.now() + parseInt(process.env.JWT_EXPIRES_IN) * 24 * 60 * 60 * 1000
       ),
-      secure: true,
+      httpOnly: false,
+      path: "/",
+      // secure: true,
     });
 
     user.user_password = undefined;
@@ -100,6 +85,16 @@ exports.login = async (req, res, next) => {
       token,
       user,
     });
+  } catch (e) {
+    next(e);
+  }
+};
+
+// * GET current user by token
+exports.getCurrentUser = async (req, res, next) => {
+  try {
+    const currentUser = req.user;
+    Response.send(res, 200, "success", undefined, undefined, { currentUser });
   } catch (e) {
     next(e);
   }
