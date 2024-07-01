@@ -26,6 +26,19 @@ exports.getUser = async (req, res, next) => {
   }
 };
 
+// * Get user by username
+exports.getUserByUsername = async (req, res, next) => {
+  try {
+    const { username } = req.params;
+
+    const user = await User.findOne({ user_username: username });
+
+    Response.send(res, 200, "success", undefined, undefined, { user });
+  } catch (e) {
+    next(e);
+  }
+};
+
 // * Search user by username
 exports.searchUsers = async (req, res, next) => {
   try {
@@ -39,36 +52,6 @@ exports.searchUsers = async (req, res, next) => {
     });
 
     Response.send(res, 200, "success", undefined, users.length, { users });
-  } catch (e) {
-    next(e);
-  }
-};
-
-// * Check user exists by username
-exports.getUserByUsername = async (req, res, next) => {
-  try {
-    const { username } = req.params;
-
-    const user = await User.findOne({ user_username: username });
-
-    if (user) return next(new AppError(409, "fail", "Username in use."));
-
-    Response.send(res, 200, "success", undefined, undefined, { user });
-  } catch (e) {
-    next(e);
-  }
-};
-
-// * Check user exists by email
-exports.getUserByEmail = async (req, res, next) => {
-  try {
-    const { email } = req.params;
-
-    const user = await User.findOne({ user_email: email });
-
-    if (user) return next(new AppError(409, "fail", "Email in use."));
-
-    Response.send(res, 200, "success", undefined, undefined, { user });
   } catch (e) {
     next(e);
   }
