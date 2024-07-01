@@ -1,5 +1,6 @@
 const express = require("express");
 const multer = require("multer");
+
 const { verifyToken } = require("../middlewares/auth.middleware");
 
 const {
@@ -16,6 +17,7 @@ const storage = multer({ storage: multer.memoryStorage() });
 // * Authenticate Token Middleware
 router.use(verifyToken);
 
+// * Post Endpoint(s)
 router.route("/").post(storage.array("post_images", 10), createPost);
 
 router.route("/:id").get(getPost).patch(updatePost).delete(deletePost);

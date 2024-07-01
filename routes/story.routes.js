@@ -1,5 +1,6 @@
 const express = require("express");
 const multer = require("multer");
+
 const { verifyToken } = require("../middlewares/auth.middleware");
 const { createStory, deleteStory } = require("../controller/story.controller");
 
@@ -9,6 +10,7 @@ const storage = multer({ storage: multer.memoryStorage() });
 // * Authenticate Token Middleware
 router.use(verifyToken);
 
+// * Story Endpoint(s)
 router.post("/", storage.single("story_photo"), createStory);
 router.delete("/", deleteStory);
 

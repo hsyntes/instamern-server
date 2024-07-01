@@ -20,6 +20,7 @@ router.post("/login", login);
 // * Authenticate Token Middleware
 router.use(verifyToken);
 
+// * Auth Endpoint(s)
 router.get("/current-user", getCurrentUser);
 router.post("/logout", logout);
 router.patch("/update-password", updatePassword);
