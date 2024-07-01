@@ -55,6 +55,7 @@ exports.verifyToken = async (req, res, next) => {
 
     // * Grant Access
     req.user = user;
+    req.user.user_password = undefined;
 
     next();
   } catch (e) {

@@ -45,7 +45,7 @@ exports.searchUsers = async (req, res, next) => {
 };
 
 // * Check user exists by username
-exports.checkUsernameExists = async (req, res, next) => {
+exports.getUserByUsername = async (req, res, next) => {
   try {
     const { username } = req.params;
 
@@ -53,14 +53,14 @@ exports.checkUsernameExists = async (req, res, next) => {
 
     if (user) return next(new AppError(409, "fail", "Username in use."));
 
-    Response.send(res, 200, "success");
+    Response.send(res, 200, "success", undefined, undefined, { user });
   } catch (e) {
     next(e);
   }
 };
 
 // * Check user exists by email
-exports.checkEmailExists = async (req, res, next) => {
+exports.getUserByEmail = async (req, res, next) => {
   try {
     const { email } = req.params;
 
@@ -68,7 +68,7 @@ exports.checkEmailExists = async (req, res, next) => {
 
     if (user) return next(new AppError(409, "fail", "Email in use."));
 
-    Response.send(res, 200, "success");
+    Response.send(res, 200, "success", undefined, undefined, { user });
   } catch (e) {
     next(e);
   }
