@@ -29,10 +29,13 @@ exports.getUser = async (req, res, next) => {
 // * Search user by username
 exports.searchUsers = async (req, res, next) => {
   try {
-    const { username } = req.params;
+    const { q } = req.params;
 
     const users = await User.find({
-      user_username: { $regex: username, $options: "i" },
+      $or: [
+        { user_username: { $regex: q, $options: "i" } },
+        { user_fullname: { $regex: q, $options: "i" } },
+      ],
     });
 
     Response.send(res, 200, "success", undefined, users.length, { users });

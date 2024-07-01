@@ -106,7 +106,7 @@ exports.getCurrentUser = async (req, res, next) => {
 // * Logout
 exports.logout = async (req, res, next) => {
   try {
-    Response.clearCookie();
+    Response.clearCookie(res);
     Response.send(res, 200, "success", "You're just logged out.");
   } catch (e) {
     next(e);

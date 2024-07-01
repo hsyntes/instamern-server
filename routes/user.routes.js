@@ -17,7 +17,7 @@ const storage = multer({ storage: multer.memoryStorage() });
 // * User Endpoints
 router.route("/").get(getUsers);
 router.route("/:id").get(getUser);
-router.get("/search/:username", searchUsers);
+router.get("/search/:q", searchUsers);
 router.get("/username/:username", checkUsernameExists);
 router.get("/email/:email", checkEmailExists);
 
