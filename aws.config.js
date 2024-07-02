@@ -6,4 +6,6 @@ AWS.config.update({
   region: process.env.AWS_REGION,
 });
 
+AWS.config.logger = console;
+
 module.exports = AWS;
