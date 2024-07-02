@@ -30,15 +30,6 @@ exports.signup = async (req, res, next) => {
     const token = generateToken(user._id);
     saveToken(res, token);
 
-    // res.cookie("jsonwebtoken", token, {
-    //   expires: new Date(
-    //     Date.now() + parseInt(process.env.JWT_EXPIRES_IN) * 24 * 60 * 60 * 1000
-    //   ),
-    //   httpOnly: false,
-    //   path: "/",
-    //   // secure: true,
-    // });
-
     user.user_password = undefined;
     user.user_active = undefined;
 

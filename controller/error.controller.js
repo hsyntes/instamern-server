@@ -33,14 +33,7 @@ module.exports = (err, req, res, next) => {
   err.status = err.status || "error";
 
   // * Send Error
-  Response.send(
-    res,
-    err.statusCode,
-    err.status,
-    err.message,
-    undefined,
-    undefined
-  );
+  Response.send(res, err.statusCode, err.status, err.message);
 
   next();
 };
