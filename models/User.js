@@ -87,7 +87,7 @@ Schema.virtual("user_stories", {
 
 // * Document Middleware
 Schema.pre("save", async function (next) {
-  if (!this.isModified("user_password")) next();
+  if (!this.isModified("user_password")) return next();
 
   this.user_password = await bcrypt.hash(this.user_password, 12);
   this.user_passwordConfirm = undefined;

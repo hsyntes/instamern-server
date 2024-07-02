@@ -137,32 +137,24 @@ exports.uploadProfilePhoto = async (req, res, next) => {
 
     const S3 = new AWS.S3();
 
-    try {
-      S3.upload(params, async function (err, data) {
-        if (err)
-          return next(
-            new AppError(422, "fail", `Profile picture couldn't upload: ${err}`)
-          );
-
-        const url = data.Location;
-
-        req.user.user_photo = url;
-        console.log("req.user_1: ", req.user);
-        await req.user.save({ validateBeforeSave: false });
-        console.log("req.user_2: ", req.user);
-
-        Response.send(
-          res,
-          201,
-          "success",
-          "Profile picture has been uploaded successfully.",
-          undefined,
-          { user: req.user }
+    S3.upload(params, async function (err, data) {
+      if (err)
+        return next(
+          new AppError(422, "fail", `Profile picture couldn't upload: ${err}`)
         );
-      });
-    } catch (e) {
-      next(e);
-    }
+
+      const url = data.Location;
+
+      req.user.user_photo = url;
+      await req.user.save({ validateBeforeSave: false });
+
+      Response.send(
+        res,
+        201,
+        "success",
+        "Profile picture has been uploaded successfully."
+      );
+    });
   } catch (e) {
     next(e);
   }
