@@ -43,7 +43,7 @@ exports.signup = async (req, res, next) => {
     user.user_active = undefined;
 
     Response.send(res, 201, "success", "Signed up successfully!", undefined, {
-      token,
+      // token,
       user,
     });
   } catch (e) {
@@ -85,7 +85,7 @@ exports.login = async (req, res, next) => {
     saveToken(res, token);
 
     Response.send(res, 200, "success", "Welcome back!", undefined, {
-      token,
+      // token,
       user,
     });
   } catch (e) {
