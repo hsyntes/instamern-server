@@ -82,6 +82,7 @@ exports.getRandomUsers = async (req, res, next) => {
         $project: {
           user_posts: 0,
           user_active: 0,
+          user_password: 0,
         },
       },
     ]);

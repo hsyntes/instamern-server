@@ -34,7 +34,6 @@ exports.signup = async (req, res, next) => {
     saveToken(res, token);
 
     user.user_password = undefined;
-    user.user_active = undefined;
 
     Response.send(res, 201, "success", "Signed up successfully!", undefined, {
       // token,
@@ -77,6 +76,8 @@ exports.login = async (req, res, next) => {
 
     const token = generateToken(user._id);
     saveToken(res, token);
+
+    user.user_password = undefined;
 
     Response.send(res, 200, "success", "Welcome back!", undefined, {
       // token,
