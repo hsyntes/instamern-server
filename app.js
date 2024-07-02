@@ -40,7 +40,7 @@ const limit = expressRateLimit({
 app.use(express.json({ limit }));
 
 // * MongoDB Connection
-(async () => {
+(async function () {
   try {
     await mongoose.connect(process.env.MONGODB_URL);
     console.log("The connection to the MongoDB is successful.");

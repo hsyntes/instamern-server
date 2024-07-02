@@ -9,6 +9,7 @@ const {
   getUserByUsername,
   searchUsers,
   uploadProfilePhoto,
+  getRandomUsers,
 } = require("../controller/user.controller");
 
 const {
@@ -22,6 +23,7 @@ const storage = multer({ storage: multer.memoryStorage() });
 // * User Endpoint(s)
 router.route("/").get(getUsers);
 router.route("/:id").get(getUser);
+router.get("/random/:size", getRandomUsers);
 router.get("/username/:username", getUserByUsername);
 router.get("/search/:q", searchUsers);
 

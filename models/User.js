@@ -98,6 +98,7 @@ Schema.pre("save", async function (next) {
 // * Query Middleware(s)
 Schema.pre("findOne", function (next) {
   this.populate("user_posts");
+  this.find({ user_active: { $ne: false } });
 
   next();
 });
@@ -105,6 +106,35 @@ Schema.pre("findOne", function (next) {
 Schema.pre(["find", "findOne"], function (next) {
   this.populate("user_stories");
   this.find({ user_active: { $ne: false } });
+
+  next();
+});
+
+// * Aggregation Middleware
+Schema.pre("aggregate", function (next) {
+  const pipeline = this.pipeline();
+
+  pipeline.unshift(
+    {
+      $match: { user_active: { $ne: false } },
+    },
+    {
+      $lookup: {
+        from: "user_posts",
+        foreignField: "post_postedBy",
+        localField: "_id",
+        as: "user_posts",
+      },
+    },
+    {
+      $lookup: {
+        from: "user_stories",
+        foreignField: "story_storiedBy",
+        localField: "_id",
+        as: "user_stories",
+      },
+    }
+  );
 
   next();
 });
