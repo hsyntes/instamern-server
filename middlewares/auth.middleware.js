@@ -55,7 +55,10 @@ exports.verifyToken = async (req, res, next) => {
 
     // * Grant Access
     req.user = user;
+
+    // * Hide sensetive data
     req.user.user_password = undefined;
+    req.user.user_active = undefined;
 
     next();
   } catch (e) {

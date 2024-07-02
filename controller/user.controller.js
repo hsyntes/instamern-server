@@ -26,7 +26,7 @@ exports.getUser = async (req, res, next) => {
   }
 };
 
-// * Get user by username
+// * GET user by username
 exports.getUserByUsername = async (req, res, next) => {
   try {
     const { username } = req.params;
@@ -34,6 +34,29 @@ exports.getUserByUsername = async (req, res, next) => {
     const user = await User.findOne({ user_username: username });
 
     Response.send(res, 200, "success", undefined, undefined, { user });
+  } catch (e) {
+    next(e);
+  }
+};
+
+// * GET random users
+exports.getRandomUsers = async (req, res, next) => {
+  try {
+    const { size } = req.params;
+
+    const users = await User.aggregate([
+      {
+        $sample: { size: Number(size) || 5 },
+      },
+      {
+        $project: {
+          user_posts: 0,
+          user_active: 0,
+        },
+      },
+    ]);
+
+    Response.send(res, 200, "success", undefined, users.length, { users });
   } catch (e) {
     next(e);
   }
