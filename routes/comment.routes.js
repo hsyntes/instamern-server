@@ -1,5 +1,5 @@
 const express = require("express");
-
+const router = express.Router({ mergeParams: true });
 const { verifyToken } = require("../middlewares/auth.middleware");
 
 const {
@@ -8,8 +8,6 @@ const {
 } = require("../controller/comment.controller");
 
 const { checkPostExists } = require("../middlewares/post.middleware");
-
-const router = express.Router({ mergeParams: true });
 
 // * Authenticate Token Middleware
 router.use(verifyToken);
