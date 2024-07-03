@@ -59,6 +59,23 @@ const Schema = new mongoose.Schema(
       trim: true,
     },
 
+    user_bio: {
+      type: String,
+      trim: true,
+    },
+
+    user_followers: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "User",
+    },
+
+    user_followings: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "User",
+    },
+
+    // user_notifications: {},
+
     user_active: {
       type: Boolean,
       default: true,
