@@ -6,14 +6,11 @@ const AppError = require("../errors/AppError");
 
 const {
   generateToken,
-  comparePasswords,
   saveToken,
-} = require("../middlewares/auth.middleware");
-
-const {
+  comparePasswords,
   listObjectsV2,
   deleteObjectsV2,
-} = require("../middlewares/s3.middleware");
+} = require("../utils/helpers");
 
 const Response = require("../utils/Response");
 
@@ -55,7 +52,7 @@ exports.login = async (req, res, next) => {
     const { username } = req.body;
 
     const user = await User.findOne({ user_username: username }).select(
-      "+user_password +active"
+      "+user_password"
     );
 
     if (!user)

@@ -1,13 +1,10 @@
-const AWS = require("../aws.config");
-const sharp = require("sharp");
-const { promisify } = require("util");
-const AppError = require("../errors/AppError");
 const Post = require("../models/Post");
 const Comment = require("../models/Comment");
-const {
-  listObjectsV2,
-  deleteObjectsV2,
-} = require("../middlewares/s3.middleware");
+const sharp = require("sharp");
+const AWS = require("../aws.config");
+const { promisify } = require("util");
+const AppError = require("../errors/AppError");
+const { listObjectsV2, deleteObjectsV2 } = require("../utils/helpers");
 const Response = require("../utils/Response");
 
 // * GET Post by id

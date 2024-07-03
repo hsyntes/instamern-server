@@ -3,6 +3,7 @@ const AWS = require("../aws.config");
 const sharp = require("sharp");
 const AppError = require("../errors/AppError");
 const Response = require("../utils/Response");
+// const { getTokenFromReqHeaders, getUserByToken } = require("../utils/helpers");
 
 // * GET users
 exports.getUsers = async (req, res, next) => {
@@ -87,7 +88,50 @@ exports.getRandomUsers = async (req, res, next) => {
       },
     ]);
 
-    Response.send(res, 200, "success", undefined, users.length, { users });
+    Response.send(res, 200, "success", undefined, users.length, {
+      users,
+    });
+
+    // let token;
+
+    // if (
+    //   req.headers.authorization &&
+    //   req.headers.authorization.startsWith("Bearer")
+    // )
+    //   token = req.headers.authorization.split("Bearer").at(1).trim();
+
+    // console.log("token: ", token);
+
+    // if (!token)
+    // return Response.send(res, 200, "success", undefined, users.length, {
+    //   users,
+    // });
+
+    // // Decode token
+    // const decoded = jsonwebtoken.verify(token, process.env.JWT_SECRET);
+
+    // const currentUser = await User.findById(decoded.id).select(
+    //   "+user_password"
+    // );
+
+    // if (!currentUser)
+    //   return next(
+    //     new AppError(
+    //       404,
+    //       "fail",
+    //       "No logged in user found. Please try to log in."
+    //     )
+    //   );
+
+    // const filteredUsers = users.filter(
+    //   (user) => user.user_username !== currentUser.user_username
+    // );
+
+    // console.log("filteredUsers: ", filteredUsers);
+
+    // Response.send(res, 200, "success", undefined, filteredUsers.length, {
+    //   users: filteredUsers,
+    // });
   } catch (e) {
     next(e);
   }

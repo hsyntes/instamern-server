@@ -1,6 +1,6 @@
 const express = require("express");
+const router = express.Router();
 const multer = require("multer");
-
 const { verifyToken } = require("../middlewares/auth.middleware");
 
 const {
@@ -11,7 +11,6 @@ const {
   likePost,
 } = require("../controller/post.controller");
 
-const router = express.Router();
 const storage = multer({ storage: multer.memoryStorage() });
 
 // * Authenticate Token Middleware

@@ -1,5 +1,7 @@
 const express = require("express");
+const router = express.Router();
 const multer = require("multer");
+const storage = multer({ storage: multer.memoryStorage() });
 
 const { verifyToken } = require("../middlewares/auth.middleware");
 
@@ -13,9 +15,6 @@ const {
   checkUserExistsByEmail,
   uploadProfilePhoto,
 } = require("../controller/user.controller");
-
-const router = express.Router();
-const storage = multer({ storage: multer.memoryStorage() });
 
 // * User Endpoint(s)
 router.route("/").get(getUsers);
