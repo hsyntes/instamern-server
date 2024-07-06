@@ -14,7 +14,7 @@ const {
   checkUserExistsByUsername,
   checkUserExistsByEmail,
   uploadProfilePhoto,
-} = require("../controller/user.controller");
+} = require("../controllers/user.controller");
 
 // * User Endpoint(s)
 router.route("/").get(getUsers);
