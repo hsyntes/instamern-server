@@ -9,7 +9,7 @@ const {
   updatePost,
   deletePost,
   likePost,
-} = require("../controller/post.controller");
+} = require("../controllers/post.controller");
 
 const storage = multer({ storage: multer.memoryStorage() });
 

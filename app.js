@@ -10,7 +10,7 @@ const helmet = require("helmet");
 const xssClean = require("xss-clean");
 const routes = require("./routes/index.routes");
 const AppError = require("./errors/AppError");
-const errorController = require("./controller/error.controller");
+const errorController = require("./controllers/error.controller");
 
 // * Local ENV Variables
 dotenv.config({ path: "./config.env" });

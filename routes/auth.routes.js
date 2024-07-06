@@ -10,7 +10,7 @@ const {
   updatePassword,
   deactivateAccount,
   deleteAccount,
-} = require("../controller/auth.controller");
+} = require("../controllers/auth.controller");
 
 // * Auth Enpoints
 router.post("/signup", signup);

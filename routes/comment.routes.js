@@ -5,7 +5,7 @@ const { verifyToken } = require("../middlewares/auth.middleware");
 const {
   createComment,
   deleteComment,
-} = require("../controller/comment.controller");
+} = require("../controllers/comment.controller");
 
 const { checkPostExists } = require("../middlewares/post.middleware");
 
