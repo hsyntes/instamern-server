@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const AppError = require("../errors/AppError");
 const jsonwebtoken = require("jsonwebtoken");
+const { getCurrentUserByToken } = require("../utils/helpers");
 
 // * Verifying JWT Token
 exports.verifyToken = async (req, res, next) => {
