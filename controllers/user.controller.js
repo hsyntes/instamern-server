@@ -20,7 +20,7 @@ exports.getUser = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id);
 
-    Response.send(res, 200, "success", undefined, { user });
+    Response.send(res, 200, "success", undefined, undefined, { user });
   } catch (e) {
     next(e);
   }
@@ -74,6 +74,7 @@ exports.getRandomUsers = async (req, res, next) => {
   try {
     const { size } = req.params;
 
+    // * Aggregation Pipeline
     const users = await User.aggregate([
       {
         $sample: { size: Number(size) || 5 },

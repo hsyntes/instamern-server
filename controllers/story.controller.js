@@ -4,7 +4,26 @@ const AWS = require("../aws.config");
 const sharp = require("sharp");
 const Response = require("../utils/Response");
 
-// * CREATE Story
+// * GET stories
+exports.getStories = async (req, res, next) => {
+  try {
+    // * Aggregation Pipeline
+    const stories = await Story.aggregate([
+      {
+        $group: {
+          _id: "$story_storiedBy",
+          story_photos: { $push: "$story_photo" },
+        },
+      },
+    ]);
+
+    Response.send(res, 200, "success", undefined, stories.length, { stories });
+  } catch (e) {
+    next(e);
+  }
+};
+
+// * CREATE story
 exports.createStory = async (req, res, next) => {
   try {
     if (!req.file || req.file.fieldname !== "story_photo")
