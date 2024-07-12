@@ -12,12 +12,32 @@ exports.getStories = async (req, res, next) => {
       {
         $group: {
           _id: "$story_storiedBy",
-          story_photos: { $push: "$story_photo" },
         },
       },
     ]);
 
     Response.send(res, 200, "success", undefined, stories.length, { stories });
+  } catch (e) {
+    next(e);
+  }
+};
+
+// * GET story by id
+exports.getStory = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    // const story = await Story.findById(id);
+
+    const story = await Story.aggregate([
+      {
+        $group: {
+          _id: "$story_storiedBy",
+          story_photos: { $push: "$story_photo" },
+        },
+      },
+    ]);
+
+    Response.send(res, 200, "success", undefined, undefined, { story });
   } catch (e) {
     next(e);
   }
