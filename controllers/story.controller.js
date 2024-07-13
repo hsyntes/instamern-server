@@ -3,6 +3,7 @@ const AppError = require("../errors/AppError");
 const AWS = require("../aws.config");
 const sharp = require("sharp");
 const Response = require("../utils/Response");
+const { default: mongoose } = require("mongoose");
 
 // * GET stories
 exports.getStories = async (req, res, next) => {
@@ -26,12 +27,11 @@ exports.getStories = async (req, res, next) => {
 exports.getStory = async (req, res, next) => {
   try {
     const { id } = req.params;
-    // const story = await Story.findById(id);
 
-    const story = await Story.aggregate([
+    const [story] = await Story.aggregate([
       {
         $group: {
-          _id: "$story_storiedBy",
+          _id: id,
           story_photos: { $push: "$story_photo" },
         },
       },
