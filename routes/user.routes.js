@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const storage = multer({ storage: multer.memoryStorage() });
-
 const { verifyToken } = require("../middlewares/auth.middleware");
 
 const {
