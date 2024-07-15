@@ -1,12 +1,11 @@
 const express = require("express");
 const multer = require("multer");
 const router = express.Router();
-
 const { verifyToken } = require("../middlewares/auth.middleware");
 
 const {
-  getStories,
-  getStory,
+  getStoriesByUserId,
+  getStoryByUserId,
   createStory,
   deleteStory,
 } = require("../controllers/story.controller");
@@ -14,8 +13,8 @@ const {
 const storage = multer({ storage: multer.memoryStorage() });
 
 // * Story Endpoint(s)
-router.get("/", getStories);
-router.get("/:id", getStory);
+router.get("/", getStoriesByUserId);
+router.get("/:userId", getStoryByUserId);
 
 // * Authenticate Token Middleware
 router.use(verifyToken);

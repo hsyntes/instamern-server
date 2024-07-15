@@ -1,12 +1,12 @@
 const Story = require("../models/Story");
 const AppError = require("../errors/AppError");
+const mongoose = require("mongoose");
 const AWS = require("../aws.config");
 const sharp = require("sharp");
 const Response = require("../utils/Response");
-const { default: mongoose } = require("mongoose");
 
-// * GET stories
-exports.getStories = async (req, res, next) => {
+// * GET stories by userId
+exports.getStoriesByUserId = async (req, res, next) => {
   try {
     // * Aggregation Pipeline
     const stories = await Story.aggregate([
@@ -23,15 +23,20 @@ exports.getStories = async (req, res, next) => {
   }
 };
 
-// * GET story by id
-exports.getStory = async (req, res, next) => {
+// * GET story by userId
+exports.getStoryByUserId = async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const { userId } = req.params;
 
     const [story] = await Story.aggregate([
       {
+        $match: {
+          story_storiedBy: mongoose.Types.ObjectId.createFromHexString(userId),
+        },
+      },
+      {
         $group: {
-          _id: id,
+          _id: "$story_storiedBy",
           story_photos: { $push: "$story_photo" },
         },
       },
