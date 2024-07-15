@@ -163,3 +163,27 @@ exports.uploadProfilePhoto = async (req, res, next) => {
     next(e);
   }
 };
+
+// * Update Current User
+exports.updateUser = async (req, res, next) => {
+  try {
+    const { fullname, username, bio } = req.body;
+
+    const updatedUser = await User.findByIdAndUpdate(req.user._id, {
+      user_fullname: fullname,
+      user_username: username,
+      user_bio: bio,
+    });
+
+    Response.send(
+      res,
+      201,
+      "success",
+      "Your profile has been updated successfully.",
+      undefined,
+      { updatedUser }
+    );
+  } catch (e) {
+    next(e);
+  }
+};

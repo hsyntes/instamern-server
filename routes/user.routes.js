@@ -13,6 +13,7 @@ const {
   checkUserExistsByUsername,
   checkUserExistsByEmail,
   uploadProfilePhoto,
+  updateUser,
 } = require("../controllers/user.controller");
 
 // * User Endpoint(s)
@@ -29,5 +30,6 @@ router.use(verifyToken);
 
 // * User Endpoint(s)
 router.post("/upload", storage.single("profile_photo"), uploadProfilePhoto);
+router.post("/update", updateUser);
 
 module.exports = router;
