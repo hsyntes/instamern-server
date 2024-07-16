@@ -61,6 +61,7 @@ const Schema = new mongoose.Schema(
 
     user_bio: {
       type: String,
+      default: "",
       trim: true,
     },
 
