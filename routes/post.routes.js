@@ -4,6 +4,7 @@ const multer = require("multer");
 const { verifyToken } = require("../middlewares/auth.middleware");
 
 const {
+  getPosts,
   createPost,
   getPost,
   updatePost,
@@ -13,6 +14,8 @@ const {
 
 const storage = multer({ storage: multer.memoryStorage() });
 
+// * Post Endpoint(s)
+router.get("/", getPosts);
 router.get("/:id", getPost);
 
 // * Authenticate Token Middleware
