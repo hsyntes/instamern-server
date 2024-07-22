@@ -13,13 +13,15 @@ const {
 
 const storage = multer({ storage: multer.memoryStorage() });
 
+router.get("/:id", getPost);
+
 // * Authenticate Token Middleware
 router.use(verifyToken);
 
 // * Post Endpoint(s)
 router.route("/").post(storage.array("post_images", 10), createPost);
 
-router.route("/:id").get(getPost).patch(updatePost).delete(deletePost);
+router.route("/:id").patch(updatePost).delete(deletePost);
 router.route("/:id/like").patch(likePost);
 
 // * Nested Routes
