@@ -5,6 +5,7 @@ const Schema = new mongoose.Schema(
   {
     post_images: {
       type: [String],
+      required: [true, "At least one post image is required."],
       trim: true,
     },
 
