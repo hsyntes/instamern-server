@@ -7,6 +7,30 @@ const AppError = require("../errors/AppError");
 const { listObjectsV2, deleteObjectsV2 } = require("../utils/helpers");
 const Response = require("../utils/Response");
 
+// * GET Posts
+exports.getPosts = async (req, res, next) => {
+  try {
+    const { page, limit } = req.query;
+
+    const countPostDocuments = await Post.countDocuments();
+
+    const posts = await Post.find()
+      .skip((Number(page) - 1) * Number(limit))
+      .limit(Number(limit));
+
+    const totalPages = Math.ceil(countPostDocuments / Number(limit));
+
+    Response.send(res, 200, "success", undefined, undefined, {
+      currentPage: Number(page),
+      countPostDocuments,
+      totalPages,
+      posts,
+    });
+  } catch (e) {
+    next(e);
+  }
+};
+
 // * GET Post by id
 exports.getPost = async (req, res, next) => {
   try {
