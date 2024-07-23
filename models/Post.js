@@ -41,7 +41,7 @@ Schema.virtual("post_comments", {
 });
 
 // * Query Middleware
-Schema.pre("findOne", function (next) {
+Schema.pre(["find", "findOne"], function (next) {
   this.populate("post_comments");
 
   next();
