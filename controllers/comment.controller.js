@@ -12,6 +12,7 @@ exports.createComment = async (req, res, next) => {
 
     Response.send(res, 201, "success", undefined, undefined, { comment });
   } catch (e) {
+    console.error("error: ", e);
     next(e);
   }
 };

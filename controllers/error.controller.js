@@ -1,3 +1,4 @@
+const { JsonWebTokenError } = require("jsonwebtoken");
 const AppError = require("../errors/AppError");
 const Response = require("../utils/Response");
 
@@ -21,12 +22,16 @@ const duplicateKeyError = (err) => {
   return new AppError(409, "fail", err.message);
 };
 
+const jsonWebTokenError = () =>
+  new AppError(401, "fail", "You're not logged in.");
+
 module.exports = (err, req, res, next) => {
   console.error(err);
 
   // * Parsing Errors
   if (err.name === "ValidationError") err = validationError(err);
   if (err.code === 11000) err = duplicateKeyError(err);
+  if (err instanceof JsonWebTokenError) err = jsonWebTokenError();
 
   // * GET statusCode and status from error object
   err.statusCode = err.statusCode || 500;
